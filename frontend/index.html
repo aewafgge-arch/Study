@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SwapNstudy – Where Sharing Meets Learning</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Swap<span>N</span>study</a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#listings">Browse</a></li>
+    <li><a href="#tech">Tech Stack</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">
+      <span class="theme-icon">🌙</span>
+    </button>
+    <div class="nav-cta" id="nav-cta-guest">
+      <button class="btn btn-outline" onclick="openModal('login')">Log in</button>
+      <button class="btn btn-primary" onclick="openModal('signup')">Sign up free</button>
+    </div>
+    <div class="nav-user" id="nav-cta-user" style="display:none">
+      <button class="btn btn-outline btn-sm" onclick="openModal('list')">+ List Item</button>
+      <div class="user-menu-wrap">
+        <div class="user-chip" onclick="toggleUserMenu()">
+          <div class="avatar av-teal" id="nav-avatar">HG</div>
+          <span id="nav-username">Harshita</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="user-dropdown" id="user-dropdown">
+          <div class="dropdown-header">
+            <div class="avatar av-teal" id="dd-avatar">HG</div>
+            <div>
+              <div class="dd-name" id="dd-name">Harshita Gupta</div>
+              <div class="dd-role">Verified Student · GLA</div>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a class="dd-item" onclick="showDashboard()">📊 My Dashboard</a>
+          <a class="dd-item" onclick="showMyListings()">📦 My Listings</a>
+          <a class="dd-item" onclick="openModal('list')">+ List an Item</a>
+          <a class="dd-item" onclick="openModal('wishlist-view')">❤️ Wishlist</a>
+          <a class="dd-item" onclick="openModal('payment-history')">💳 Payments</a>
+          <div class="dropdown-divider"></div>
+          <a class="dd-item dd-logout" onclick="handleLogout()">← Sign Out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ TOAST ═══ -->
+<div id="toast" class="toast"></div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="home">
+  <div class="hero-bg-blob"></div>
+  <div class="hero-bg-blob2"></div>
+  <div class="hero-inner">
+    <div class="hero-content fade-up">
+      <div class="hero-badge">● GLA University · Mathura</div>
+      <h1>
+        Where <span class="accent">sharing</span>
+        <span class="line2">meets learning</span>
+      </h1>
+      <p class="hero-sub">
+        A campus platform for students to swap, sell, donate, and discover
+        academic resources — books, notes, devices — from peers, not stores.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-teal btn-lg" onclick="openModal('signup')">Start sharing →</button>
+        <a href="#listings" class="btn btn-outline btn-lg">Browse listings</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-num" data-target="500">0</span><span class="stat-label">Resources listed</span></div>
+        <div class="stat-item"><span class="stat-num" data-target="200">0</span><span class="stat-label">Students connected</span></div>
+        <div class="stat-item"><span class="stat-num">₹0</span><span class="stat-label">Platform fee</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="h-card h-card-back2">
+          <div class="card-tag coral">Swap</div>
+          <div class="card-item-title">Physics Lab Manual</div>
+          <div class="card-price">₹0</div>
+        </div>
+        <div class="h-card h-card-back1">
+          <div class="card-tag amber">Donate</div>
+          <div class="card-item-title">Casio fx-991 Calculator</div>
+          <div class="card-price">Free</div>
+        </div>
+        <div class="h-card h-card-main">
+          <div class="card-tag">For Sale</div>
+          <div class="card-item-title">Data Structures &amp; Algorithms</div>
+          <div class="card-item-meta">Narasimha Karumanchi · 3rd Ed.</div>
+          <div class="card-price">₹180</div>
+          <div class="card-seller">
+            <div class="avatar av-teal">HG</div>
+            <div class="seller-info">
+              <div class="seller-name">Harshita Gupta</div>
+              <div class="seller-dept">BCA · Section C</div>
+            </div>
+            <div class="verified-chip">✓ Verified</div>
+          </div>
+        </div>
+        <div class="float-badge b1"><span class="badge-icon">✓</span> Secure exchange</div>
+        <div class="float-badge b2"><span class="badge-icon">🔔</span> New listing!</div>
+        <div class="float-badge b3"><span class="badge-icon">⭐</span> 4.9 rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SEARCH ═══ -->
+<div class="search-section" id="search-section">
+  <div class="search-inner">
+    <div class="search-input-wrap">
+      <span class="search-icon-left">🔍</span>
+      <input class="search-bar" type="text" placeholder="Search books, notes, devices, calculators…" id="searchInput" oninput="liveSearch(this.value)"/>
+      <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display:none">✕</button>
+    </div>
+    <div class="search-filters">
+      <select class="search-select" id="searchCat" onchange="applySearchFilter()">
+        <option value="">All Categories</option>
+        <option value="book">📘 Books</option>
+        <option value="notes">📝 Notes</option>
+        <option value="electronics">💻 Electronics</option>
+        <option value="stationery">🔧 Stationery</option>
+      </select>
+      <select class="search-select" id="searchType" onchange="applySearchFilter()">
+        <option value="">All Types</option>
+        <option value="sell">For Sale</option>
+        <option value="donate">Free/Donate</option>
+        <option value="swap">Swap</option>
+      </select>
+    </div>
+    <div id="search-suggestions" class="search-suggestions"></div>
+  </div>
+</div>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="how" id="how">
+  <div class="section-inner">
+    <p class="section-label">Simple process</p>
+    <h2 class="section-title">Four steps to swap</h2>
+    <p class="section-sub">No complicated process. Register, list what you have, find what you need, and exchange.</p>
+    <div class="steps-grid">
+      <div class="step-card step-card-interactive fade-up" style="--delay:0s" onclick="handleStepClick('signup')">
+        <div class="step-num">01</div>
+        <div class="step-icon">👤</div>
+        <div class="step-title">Create Account</div>
+        <div class="step-desc">Register with your college email and verify your student identity to join the campus community.</div>
+        <div class="step-cta-badge">Click to Register →</div>
+      </div>
+      <div class="step-card step-card-interactive fade-up" style="--delay:.1s" onclick="handleStepClick('list')">
+        <div class="step-num">02</div>
+        <div class="step-icon">📦</div>
+        <div class="step-title">List Your Items</div>
+        <div class="step-desc">Upload books, notes, or devices. Choose to sell, donate, or swap. Set your price and category.</div>
+        <div class="step-cta-badge">Click to List →</div>
+      </div>
+      <div class="step-card step-card-interactive fade-up" style="--delay:.2s" onclick="handleStepClick('search')">
+        <div class="step-num">03</div>
+        <div class="step-icon">🔍</div>
+        <div class="step-title">Search &amp; Filter</div>
+        <div class="step-desc">Browse listings by subject, semester, or category. Filter by price, condition, and transaction type.</div>
+        <div class="step-cta-badge">Click to Search →</div>
+      </div>
+      <div class="step-card step-card-interactive fade-up" style="--delay:.3s" onclick="handleStepClick('connect')">
+        <div class="step-num">04</div>
+        <div class="step-icon">🤝</div>
+        <div class="step-title">Connect &amp; Exchange</div>
+        <div class="step-desc">Message the seller directly. Arrange a safe on-campus meetup and complete the exchange.</div>
+        <div class="step-cta-badge">Click to Connect →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <p class="section-label">Platform features</p>
+    <h2 class="section-title">Everything you need to share smarter</h2>
+    <div class="features-grid" style="margin-top:3rem">
+      <div class="feat-card big fade-up">
+        <div>
+          <div class="feat-icon fi-teal" style="margin-bottom:1rem">🔐</div>
+          <div class="feat-title">Secure Student Login</div>
+          <p class="feat-desc">Only verified students can access the platform. OTP-based authentication ensures every user is a real peer — creating a trusted community for all exchanges.</p>
+          <div class="feat-tags">
+            <span class="feat-tag">Email OTP</span>
+            <span class="feat-tag">Roll Number</span>
+            <span class="feat-tag">Verified Badge</span>
+          </div>
+        </div>
+        <div class="feat-stat-box">
+          <div style="font-size:2.5rem;margin-bottom:.5rem">🛡️</div>
+          <div class="feat-stat-num">100%</div>
+          <div class="feat-stat-label">Campus-verified users</div>
+        </div>
+      </div>
+      <div class="feat-card fade-up"><div class="feat-icon fi-amber">📚</div><div class="feat-title">Categorized Listings</div><p class="feat-desc">Items organized by subject, semester, and type. Find exactly what you need in seconds with smart filters.</p></div>
+      <div class="feat-card fade-up"><div class="feat-icon fi-ink">💬</div><div class="feat-title">In-App Messaging</div><p class="feat-desc">Chat directly with sellers. No personal numbers shared. All conversations in one safe, private space.</p></div>
+      <div class="feat-card fade-up"><div class="feat-icon fi-teal">🔎</div><div class="feat-title">Smart Search &amp; Filter</div><p class="feat-desc">Live search with keyword, category, price range, and condition filters to instantly surface relevant listings.</p></div>
+      <div class="feat-card fade-up"><div class="feat-icon fi-amber">💳</div><div class="feat-title">Secure UPI Payment</div><p class="feat-desc">Pay safely via UPI, cards, or wallets. Instant payment confirmation with transaction history for every exchange.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LISTINGS ═══ -->
+<section class="listings" id="listings">
+  <div class="section-inner">
+    <div class="listings-header">
+      <div>
+        <p class="section-label">Browse</p>
+        <h2 class="section-title">Latest listings</h2>
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="tab active" onclick="setTab(this,'all')">All</button>
+          <button class="tab" onclick="setTab(this,'sell')">For Sale</button>
+          <button class="tab" onclick="setTab(this,'donate')">Free / Donate</button>
+          <button class="tab" onclick="setTab(this,'swap')">Swap</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+        <div class="sort-wrap">
+          <select class="sort-select" onchange="sortListings(this.value)">
+            <option value="newest">Newest first</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
+          </select>
+        </div>
+        <button class="btn btn-teal" onclick="openModal('list')">+ List an item</button>
+      </div>
+    </div>
+    <div class="cards-grid" id="listingsGrid"></div>
+    <div class="load-more-wrap" id="load-more-wrap">
+      <button class="btn btn-outline load-more-btn" onclick="loadMore()">Load more listings</button>
+    </div>
+    <div id="no-results" style="display:none;text-align:center;padding:3rem 0;color:var(--muted)">
+      <div style="font-size:3rem;margin-bottom:1rem">🔍</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:.5rem">No listings found</div>
+      <div>Try a different filter or <a onclick="openModal('list')" style="color:var(--teal);cursor:pointer;font-weight:600">post what you're looking for</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS TICKER ═══ -->
+<div class="ticker-section">
+  <div class="ticker-track">
+    <span>📚 500+ Resources Listed</span><span class="ticker-dot">·</span>
+    <span>🤝 200+ Exchanges Completed</span><span class="ticker-dot">·</span>
+    <span>💰 ₹50,000+ Saved by Students</span><span class="ticker-dot">·</span>
+    <span>⭐ 4.8 Average Seller Rating</span><span class="ticker-dot">·</span>
+    <span>🎓 GLA University · Mathura</span><span class="ticker-dot">·</span>
+    <span>💳 Secure UPI Payments</span><span class="ticker-dot">·</span>
+    <span>📚 500+ Resources Listed</span><span class="ticker-dot">·</span>
+    <span>🤝 200+ Exchanges Completed</span><span class="ticker-dot">·</span>
+    <span>💰 ₹50,000+ Saved by Students</span><span class="ticker-dot">·</span>
+    <span>⭐ 4.8 Average Seller Rating</span><span class="ticker-dot">·</span>
+  </div>
+</div>
+
+<!-- ═══ TECH STACK ═══ -->
+<section class="tech" id="tech">
+  <div class="tech-inner">
+    <div class="tech-header fade-up">
+      <p class="section-label" style="text-align:center">Built with</p>
+      <h2 class="section-title" style="text-align:center">Technology Stack</h2>
+    </div>
+    <div class="tech-row">
+      <div class="tech-pill"><div class="tech-dot td-amber"></div>HTML5</div>
+      <div class="tech-pill"><div class="tech-dot td-teal"></div>CSS3</div>
+      <div class="tech-pill"><div class="tech-dot td-amber"></div>JavaScript</div>
+      <div class="tech-pill"><div class="tech-dot td-ink"></div>Node.js</div>
+      <div class="tech-pill"><div class="tech-dot td-teal"></div>MySQL</div>
+      <div class="tech-pill"><div class="tech-dot td-coral"></div>Express.js</div>
+      <div class="tech-pill"><div class="tech-dot td-ink"></div>Nodemailer</div>
+      <div class="tech-pill"><div class="tech-dot td-teal"></div>bcrypt.js</div>
+      <div class="tech-pill"><div class="tech-dot td-amber"></div>JWT</div>
+      <div class="tech-pill"><div class="tech-dot td-ink"></div>Razorpay API</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2>Ready to swap smarter?</h2>
+    <p>Join hundreds of GLA students already sharing resources, saving money, and supporting each other.</p>
+    <div class="cta-btns">
+      <button class="btn btn-white btn-lg" onclick="openModal('signup')">Create free account</button>
+      <a href="#listings" class="btn btn-ghost btn-lg">Browse listings</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Swap<span style="color:var(--teal)">N</span>study</a>
+      <p>A web-based student resource sharing platform for GLA University, Mathura.</p>
+      <div class="footer-socials">
+        <span class="social-chip">📧 swapnstudy@gla.ac.in</span>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Platform</h4><ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#listings">Browse listings</a></li>
+      <li><a href="#" onclick="openModal('list')">List an item</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Account</h4><ul>
+      <li><a href="#" onclick="openModal('signup')">Register</a></li>
+      <li><a href="#" onclick="openModal('login')">Login</a></li>
+      <li><a href="#" onclick="showMyListings()">My listings</a></li>
+      <li><a href="#" onclick="openModal('messages-view')">Messages</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Team</h4><ul>
+      <li><a href="#">Harshita Gupta — 2442010238</a></li>
+      <li><a href="#">Hina Rajput — 2442010244</a></li>
+      <li><a href="#">Jaya — 2442010249</a></li>
+      <li><a href="#">Dept. of CEA, GLA University</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SwapNstudy · Session 2025–26 · GLA University, Mathura</span>
+    <span>Made with ❤️ by CEA Dept.</span>
+  </div>
+</footer>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD OVERLAY ═══ -->
+<div class="dashboard-overlay" id="dashboardOverlay">
+  <div class="dashboard-panel" id="dashboardPanel">
+    <button class="dash-close" onclick="hideDashboard()">✕ Close</button>
+    <div id="dashboardContent"></div>
+  </div>
+</div>
+
+<!-- ═══ SEARCH SPOTLIGHT ═══ -->
+<div class="search-spotlight-overlay" id="searchSpotlightOverlay">
+  <div class="search-spotlight-box" id="searchSpotlightBox">
+    <div class="spotlight-header">
+      <div class="spotlight-title">🔍 Search &amp; Filter Listings</div>
+      <button class="spotlight-close" id="spotlightCloseBtn">✕</button>
+    </div>
+    <div class="spotlight-search-wrap">
+      <span class="spotlight-search-icon">🔍</span>
+      <input class="spotlight-input" type="text" id="spotlightInput" placeholder="Search books, notes, devices, calculators…" oninput="spotlightSearch(this.value)" autocomplete="off"/>
+      <button class="spotlight-clear" id="spotlightClear" onclick="clearSpotlight()" style="display:none">✕</button>
+    </div>
+    <div class="spotlight-filters">
+      <select class="spotlight-select" id="spotlightCat" onchange="spotlightFilter()">
+        <option value="">All Categories</option>
+        <option value="book">📘 Books</option>
+        <option value="notes">📝 Notes</option>
+        <option value="electronics">💻 Electronics</option>
+        <option value="stationery">🔧 Stationery</option>
+      </select>
+      <select class="spotlight-select" id="spotlightType" onchange="spotlightFilter()">
+        <option value="">All Types</option>
+        <option value="sell">For Sale</option>
+        <option value="donate">Free/Donate</option>
+        <option value="swap">Swap</option>
+      </select>
+    </div>
+    <div class="spotlight-results" id="spotlightResults"></div>
+    <div class="spotlight-footer">
+      <span id="spotlight-count" style="font-size:.8rem;color:rgba(255,255,255,.5)">Showing all listings</span>
+      <button class="btn btn-teal btn-sm" onclick="goToListings()">Browse all →</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
