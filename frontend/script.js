@@ -23,7 +23,7 @@ const STATE = {
 };
 
 // Load from localStorage safely
-const API_URL = 'http://localhost:5000/api';
+const API_URL = https://swapnstudy-backend.onrender.com;
 let AUTH_TOKEN = localStorage.getItem('sns_token') || null;
 
 async function apiFetch(endpoint, options = {}) {
